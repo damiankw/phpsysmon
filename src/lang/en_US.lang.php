@@ -1,22 +1,22 @@
 <?php
 
 /**
- * PHP Server Monitor
+ * PHP Systems Monitor
  * Monitor your servers and websites.
  *
- * This file is part of PHP Server Monitor.
- * PHP Server Monitor is free software: you can redistribute it and/or modify
+ * This file is part of PHP Systems Monitor.
+ * PHP Systems Monitor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * PHP Server Monitor is distributed in the hope that it will be useful,
+ * PHP Systems Monitor is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with PHP Server Monitor.  If not, see <http://www.gnu.org/licenses/>.
+ * along with PHP Systems Monitor.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package     phpservermon
  * @author      Pepijn Over <pep@mailbox.org>
@@ -564,7 +564,7 @@ $sm_lang = array(
         'password_repeat' => 'Repeat password',
         'password_forgot' => 'Forgot password?',
         'password_reset' => 'Reset password',
-        'password_reset_email_subject' => 'Reset your password for PHP Server Monitor',
+        'password_reset_email_subject' => 'Reset your password for PHP Systems Monitor',
         'password_reset_email_body' => 'Please use the following link to reset your password. Please note it expires in 1 hour.<br><br>%link%',
         'error_user_incorrect' => 'The provided username could not be found.',
         'error_login_incorrect' => 'The information is incorrect.',

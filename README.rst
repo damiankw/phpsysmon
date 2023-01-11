@@ -1,4 +1,4 @@
-PHP Server Monitor
+PHP Systems Monitor
 ==================
 
 .. image:: https://badges.gitter.im/Join%20Chat.svg
@@ -9,7 +9,7 @@ PHP Server Monitor
    :target: https://huntr.dev
 Version 3.6.0.beta2
 
-PHP Server Monitor is a script that checks whether your websites and servers are up and running.
+PHP Systems Monitor is a script that checks whether your websites and servers are up and running.
 It comes with a web based user interface where you can manage your services and websites,
 and you can manage users for each server with a mobile number and email address.
 
@@ -126,18 +126,18 @@ The documentation is available in the docs folder or https://docs.phpservermonit
 License
 -------
 
-PHP Server Monitor is free software: you can redistribute it and/or modify
+PHP Systems Monitor is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-PHP Server Monitor is distributed in the hope that it will be useful,
+PHP Systems Monitor is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with PHP Server Monitor.  If not, see https://www.gnu.org/licenses/.
+along with PHP Systems Monitor.  If not, see https://www.gnu.org/licenses/.
 
 Docker
 -------

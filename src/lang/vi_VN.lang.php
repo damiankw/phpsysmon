@@ -1,22 +1,22 @@
 <?php
 
 /**
- * PHP Server Monitor
+ * PHP Systems Monitor
  * Monitor your servers and websites.
  *
- * This file is part of PHP Server Monitor.
- * PHP Server Monitor is free software: you can redistribute it and/or modify
+ * This file is part of PHP Systems Monitor.
+ * PHP Systems Monitor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * PHP Server Monitor is distributed in the hope that it will be useful,
+ * PHP Systems Monitor is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with PHP Server Monitor.  If not, see <http://www.gnu.org/licenses/>.
+ * along with PHP Systems Monitor.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package     phpservermon
  * @author      Loi Le <lploi91@gmail.com>
@@ -307,7 +307,7 @@ $sm_lang = array(
         'password_repeat' => 'Nhập lại mật khẩu',
         'password_forgot' => 'Quên mật khẩu?',
         'password_reset' => 'Khôi phục mật khẩu',
-        'password_reset_email_subject' => 'Khôi phục lại mật khẩu của bạn cho PHP Server Monitor',
+        'password_reset_email_subject' => 'Khôi phục lại mật khẩu của bạn cho PHP Systems Monitor',
         'password_reset_email_body' => 'Vui lòng sử dụng liên kết sau đây để thiết lập lại mật
  khẩu của bạn. Xin lưu ý nó hết hạn trong 1 giờ.<br><br>%link%',
         'error_user_incorrect' => 'Tên người dùng cung cấp không thể tìm thấy.',

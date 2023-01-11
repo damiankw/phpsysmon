@@ -1,22 +1,22 @@
 <?php
 
 /**
- * PHP Server Monitor
+ * PHP Systems Monitor
  * Monitor your servers and websites.
  *
- * This file is part of PHP Server Monitor.
- * PHP Server Monitor is free software: you can redistribute it and/or modify
+ * This file is part of PHP Systems Monitor.
+ * PHP Systems Monitor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * PHP Server Monitor is distributed in the hope that it will be useful,
+ * PHP Systems Monitor is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with PHP Server Monitor.  If not, see <http://www.gnu.org/licenses/>.
+ * along with PHP Systems Monitor.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package     phpservermon
  * @author      nerdalertdk
@@ -300,7 +300,7 @@ $sm_lang = array(
         'password_repeat' => 'Skriv adgangskode igen',
         'password_forgot' => 'Glemt adgangskode?',
         'password_reset' => 'Nulstil adgangskode',
-        'password_reset_email_subject' => 'Nulstil din adgangskode for PHP Server Monitor',
+        'password_reset_email_subject' => 'Nulstil din adgangskode for PHP Systems Monitor',
         'password_reset_email_body' => 'Brug venligst følgende link for at nulstille din adgangskode. Bemærk at
  linkets gyldighed udløber efter en time.<br><br>%link%',
         'error_user_incorrect' => 'Det angivet brugernavn kunne ikke findes.',
