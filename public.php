@@ -24,7 +24,7 @@
  * @license     http://www.gnu.org/licenses/gpl.txt GNU GPL v3
  * @version     Release: @package_version@
  * @link        http://www.phpservermonitor.org/
- * @since       phpservermon 3.6.0
+ * @since       phpservermon 4.0.0
  **/
 
 namespace {

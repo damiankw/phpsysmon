@@ -7,11 +7,13 @@ PHP Systems Monitor
 .. image:: https://cdn.huntr.dev/huntr_security_badge_mono.svg
    :alt: huntr
    :target: https://huntr.dev
-Version 3.6.0.beta2
+Version 4.0.0
 
 PHP Systems Monitor is a script that checks whether your websites and servers are up and running.
 It comes with a web based user interface where you can manage your services and websites,
 and you can manage users for each server with a mobile number and email address.
+
+**Forked from PHP Server Monitor which looks to be abandoned.**
 
 
 Features:

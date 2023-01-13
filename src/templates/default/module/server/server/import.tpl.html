@@ -1,0 +1,23 @@
+{% import 'main/macros.tpl.html' as macro %}
+<form name="import_server" action="{{ url_save|raw }}" class="col-md-6 pl-0 pr-0" id="edit_server" method="post"
+ autocomplete="off">
+	<fieldset>
+		<legend>{{ titlemode }}</legend>
+		<p>{{ label_import_description|raw }}</p>
+		<div class="col">
+    <fieldset>
+        <legend>{{ label_save }}</legend>
+        {{ macro.button_save(null, label_save) }}
+        <a class="btn" href="{{ url_go_back|raw }}">{{ label_go_back }}</a>
+    </fieldset>
+    {% if edit_server_id > 0 %}
+    <fieldset>
+        <legend class="mt-4">{{ label_delete }}</legend>
+        <a class="btn btn-danger show-modal" href="{{ url_delete|raw }}" title="{{ label_delete }}" data-modal-id="delete"
+			data-modal-param="{{ edit_value_label }}">
+            <i class="fas fa-trash"></i> {{ label_delete }}
+        </a>
+    </fieldset>
+    {% endif %}
+	{{ macro.input_csrf() }}
+</form>

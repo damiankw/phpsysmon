@@ -50,12 +50,12 @@ class ServerController extends AbstractServerController
 
         $this->setCSRFKey('server');
         $this->setActions(array(
-            'index', 'edit', 'save', 'delete', 'view',
+            'index', 'edit', 'import', 'save', 'delete', 'view',
         ), 'index');
 
         // make sure only admins are allowed to edit/delete servers:
         $this->setMinUserLevelRequiredForAction(PSM_USER_ADMIN, array(
-            'delete', 'edit', 'save'
+            'delete', 'edit', 'import', 'save'
         ));
         $this->twig->addGlobal('subtitle', psm_get_lang('menu', 'server'));
     }
@@ -85,6 +85,15 @@ class ServerController extends AbstractServerController
                 'plus',
                 'success',
                 psm_get_lang('system', 'add_new')
+            );
+
+            $sidebar->addButton(
+                'import',
+                psm_get_lang('system', 'import'),
+                psm_build_url(array('mod' => 'server', 'action' => 'import')),
+                'plus',
+                'success',
+                psm_get_lang('system', 'import')
             );
         }
 
@@ -264,6 +273,72 @@ class ServerController extends AbstractServerController
 
         return $this->twig->render('module/server/server/update.tpl.html', $tpl_data);
     }
+
+     /**
+     * Prepare the template to show the import screen for multiple servers
+     */
+    protected function executeImport()
+    {
+        $back_to = isset($_GET['back_to']) ? $_GET['back_to'] : '';
+
+        $tpl_data = $this->getLabels();
+        $tpl_data['url_save'] = psm_build_url(array(
+            'mod' => 'server',
+            'action' => 'import',
+            'id' => $this->server_id,
+            'back_to' => $back_to,
+        ));
+
+
+        // depending on where the user came from, add the go back url:
+        if ($back_to == 'view' && $this->server_id > 0) {
+            $tpl_data['url_go_back'] = psm_build_url(
+                array('mod' => 'server', 'action' => 'view', 'id' => $this->server_id)
+            );
+        } else {
+            $tpl_data['url_go_back'] = psm_build_url(array('mod' => 'server'));
+        }
+
+        $tpl_data['users'] = $this->db->select(PSM_DB_PREFIX . 'users', null, array('user_id', 'name'), '', 'name');
+
+        foreach ($tpl_data['users'] as &$user) {
+            $user['id'] = $user['user_id'];
+            unset($user['user_id']);
+            $user['label'] = $user['name'];
+            unset($user['name']);
+        }
+
+        switch ($this->server_id) {
+            case 0:
+                // insert mode
+                $tpl_data['titlemode'] = psm_get_lang('system', 'import');
+                $tpl_data['edit_value_warning_threshold'] = '1';
+
+                $edit_server = $_POST;
+                break;
+            default:
+                // edit mode
+                // get server entry
+                $edit_server = $this->getServers($this->server_id);
+                if (empty($edit_server)) {
+                    $this->addMessage(psm_get_lang('servers', 'error_server_no_match'), 'error');
+                    return $this->runAction('index');
+                }
+                $tpl_data['titlemode'] = psm_get_lang('system', 'edit') . ' ' . $edit_server['label'];
+
+                $user_idc_selected = $this->getServerUsers($this->server_id);
+                foreach ($tpl_data['users'] as &$user) {
+                    if (in_array($user['id'], $user_idc_selected)) {
+                        $user['edit_selected'] = 'selected="selected"';
+                    }
+                }
+
+                break;
+        }
+
+        return $this->twig->render('module/server/server/import.tpl.html', $tpl_data);
+    }
+
 
     /**
      * Executes the saving of one of the servers
