@@ -1,13 +1,18 @@
 {% import 'main/macros.tpl.html' as macro %}
-<form name="import_server" action="{{ url_save|raw }}" class="col-md-6 pl-0 pr-0" id="edit_server" method="post"
+<form name="import_server" action="{{ url_save|raw }}" class="col-md-6 pl-0 pr-0" id="import_server" method="post"
  autocomplete="off">
 	<fieldset>
 		<legend>{{ titlemode }}</legend>
 		<p>{{ label_import_description|raw }}</p>
 		<div class="col">
+
+			{{ macro.input_field("file", "file", null, "file", label_file, null, null, null, null, null, null, null, true, true) }}
+
+        </div>
+    </fieldset>
     <fieldset>
-        <legend>{{ label_save }}</legend>
-        {{ macro.button_save(null, label_save) }}
+        <legend>{{ label_import }}</legend>
+        {{ macro.button_save(null, label_import) }}
         <a class="btn" href="{{ url_go_back|raw }}">{{ label_go_back }}</a>
     </fieldset>
     {% if edit_server_id > 0 %}

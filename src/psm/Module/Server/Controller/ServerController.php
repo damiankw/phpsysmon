@@ -93,7 +93,7 @@ class ServerController extends AbstractServerController
                 psm_build_url(array('mod' => 'server', 'action' => 'import')),
                 'plus',
                 'success',
-                psm_get_lang('system', 'import')
+                psm_get_lang('system', 'bulk_import')
             );
         }
 
@@ -279,64 +279,68 @@ class ServerController extends AbstractServerController
      */
     protected function executeImport()
     {
-        $back_to = isset($_GET['back_to']) ? $_GET['back_to'] : '';
-
-        $tpl_data = $this->getLabels();
-        $tpl_data['url_save'] = psm_build_url(array(
-            'mod' => 'server',
-            'action' => 'import',
-            'id' => $this->server_id,
-            'back_to' => $back_to,
-        ));
-
-
-        // depending on where the user came from, add the go back url:
-        if ($back_to == 'view' && $this->server_id > 0) {
-            $tpl_data['url_go_back'] = psm_build_url(
-                array('mod' => 'server', 'action' => 'view', 'id' => $this->server_id)
-            );
+        // check if an import file has been uploaded
+        if (!empty($_POST['file'])) {
+            return $this->executeIndex();
         } else {
-            $tpl_data['url_go_back'] = psm_build_url(array('mod' => 'server'));
-        }
 
-        $tpl_data['users'] = $this->db->select(PSM_DB_PREFIX . 'users', null, array('user_id', 'name'), '', 'name');
+            $back_to = isset($_GET['back_to']) ? $_GET['back_to'] : '';
 
-        foreach ($tpl_data['users'] as &$user) {
-            $user['id'] = $user['user_id'];
-            unset($user['user_id']);
-            $user['label'] = $user['name'];
-            unset($user['name']);
-        }
+            $tpl_data = $this->getLabels();
+            $tpl_data['url_save'] = psm_build_url(array(
+                'mod' => 'server',
+                'action' => 'import',
+                'id' => $this->server_id,
+                'back_to' => $back_to,
+            ));
 
-        switch ($this->server_id) {
-            case 0:
-                // insert mode
-                $tpl_data['titlemode'] = psm_get_lang('system', 'import');
-                $tpl_data['edit_value_warning_threshold'] = '1';
+            // depending on where the user came from, add the go back url:
+            if ($back_to == 'view' && $this->server_id > 0) {
+                $tpl_data['url_go_back'] = psm_build_url(
+                    array('mod' => 'server', 'action' => 'view', 'id' => $this->server_id)
+                );
+            } else {
+                $tpl_data['url_go_back'] = psm_build_url(array('mod' => 'server'));
+            }
 
-                $edit_server = $_POST;
-                break;
-            default:
-                // edit mode
-                // get server entry
-                $edit_server = $this->getServers($this->server_id);
-                if (empty($edit_server)) {
-                    $this->addMessage(psm_get_lang('servers', 'error_server_no_match'), 'error');
-                    return $this->runAction('index');
-                }
-                $tpl_data['titlemode'] = psm_get_lang('system', 'edit') . ' ' . $edit_server['label'];
+            $tpl_data['users'] = $this->db->select(PSM_DB_PREFIX . 'users', null, array('user_id', 'name'), '', 'name');
 
-                $user_idc_selected = $this->getServerUsers($this->server_id);
-                foreach ($tpl_data['users'] as &$user) {
-                    if (in_array($user['id'], $user_idc_selected)) {
-                        $user['edit_selected'] = 'selected="selected"';
+            foreach ($tpl_data['users'] as &$user) {
+                $user['id'] = $user['user_id'];
+                unset($user['user_id']);
+                $user['label'] = $user['name'];
+                unset($user['name']);
+            }
+
+            switch ($this->server_id) {
+                case 0:
+                    // insert mode
+                    $tpl_data['titlemode'] = psm_get_lang('system', 'bulk_import');
+                    $tpl_data['edit_value_warning_threshold'] = '1';
+
+                    $edit_server = $_POST;
+                    break;
+                default:
+                    // edit mode
+                    // get server entry
+                    $edit_server = $this->getServers($this->server_id);
+                    if (empty($edit_server)) {
+                        $this->addMessage(psm_get_lang('servers', 'error_server_no_match'), 'error');
+                        return $this->runAction('index');
                     }
-                }
+                    $tpl_data['titlemode'] = psm_get_lang('system', 'edit') . ' ' . $edit_server['label'];
 
-                break;
+                    $user_idc_selected = $this->getServerUsers($this->server_id);
+                    foreach ($tpl_data['users'] as &$user) {
+                        if (in_array($user['id'], $user_idc_selected)) {
+                            $user['edit_selected'] = 'selected="selected"';
+                        }
+                    }
+
+                    break;
+            }
+            return $this->twig->render('module/server/server/import.tpl.html', $tpl_data);
         }
-
-        return $this->twig->render('module/server/server/import.tpl.html', $tpl_data);
     }
 
 
@@ -688,6 +692,7 @@ class ServerController extends AbstractServerController
             'label_warning_threshold_description' => psm_get_lang('servers', 'warning_threshold_description'),
             'label_ssl_cert_expiry_days' => psm_get_lang('servers', 'ssl_cert_expiry_days'),
             'label_ssl_cert_expiry_days_description' => psm_get_lang('servers', 'ssl_cert_expiry_days_description'),
+            'label_import_description' => psm_get_lang('servers', 'import_description'),
             'label_action' => psm_get_lang('system', 'action'),
             'label_save' => psm_get_lang('system', 'save'),
             'label_go_back' => psm_get_lang('system', 'go_back'),
@@ -711,6 +716,9 @@ class ServerController extends AbstractServerController
             'label_log_no_logs' => psm_get_lang('log', 'no_logs'),
             'label_date' => psm_get_lang('system', 'date'),
             'label_message' => psm_get_lang('system', 'message'),
+            'label_file' => psm_get_lang('system', 'file'),
+            'label_upload' => psm_get_lang('system', 'upload'),
+            'label_import' => psm_get_lang('system', 'import'),
         );
     }
 

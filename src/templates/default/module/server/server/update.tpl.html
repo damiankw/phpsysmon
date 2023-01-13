@@ -26,22 +26,23 @@
 					<option {% if edit_value_port not in [0, 80, 443, 21, 25, 465, 110, 995, 143, 993, 22, 389, 3306, 115, 43, 53,
 					 3389] %} selected {% endif %} value="custom">{{ label_custom_port }}</option>
 					<optgroup label="{{ label_popular_ports }}">
+						<option {% if edit_value_port==53 %}selected {% endif %}value="53">BIND (53)</option>
+						<option {% if edit_value_port==21 %}selected {% endif %}value="21">FTP (21)</option>
 						<option {% if edit_value_port==80 %}selected {% endif %}value="80">HTTP (80)</option>
 						<option {% if edit_value_port==443 %}selected {% endif %}value="443">HTTPS (443)</option>
-						<option {% if edit_value_port==21 %}selected {% endif %}value="21">FTP (21)</option>
-						<option {% if edit_value_port==25 %}selected {% endif %}value="25">SMTP (25)</option>
-						<option {% if edit_value_port==465 %}selected {% endif %}value="465">SMTP Secure (465)</option>
-						<option {% if edit_value_port==110 %}selected {% endif %}value="110">POP3 (110)</option>
-						<option {% if edit_value_port==995 %}selected {% endif %}value="995">POP3 Secure (995)</option>
 						<option {% if edit_value_port==143 %}selected {% endif %}value="143">IMAP (143)</option>
 						<option {% if edit_value_port==993 %}selected {% endif %}value="993">IMAP over SSL (993)</option>
-						<option {% if edit_value_port==22 %}selected {% endif %}value="22">SSH (22)</option>
 						<option {% if edit_value_port==389 %}selected {% endif %}value="389">LDAP (389)</option>
 						<option {% if edit_value_port==3306 %}selected {% endif %}value="3306">MySQL (3306)</option>
-						<option {% if edit_value_port==115 %}selected {% endif %}value="115">SFTP (115)</option>
-						<option {% if edit_value_port==43 %}selected {% endif %}value="43">WHOIS (43)</option>
-						<option {% if edit_value_port==53 %}selected {% endif %}value="53">BIND (53)</option>
+						<option {% if edit_value_port==110 %}selected {% endif %}value="110">POP3 (110)</option>
+						<option {% if edit_value_port==995 %}selected {% endif %}value="995">POP3 Secure (995)</option>
 						<option {% if edit_value_port==3389 %}selected {% endif %}value="3389">RDP (3389)</option>
+						<option {% if edit_value_port==115 %}selected {% endif %}value="115">SFTP (115)</option>
+						<option {% if edit_value_port==25 %}selected {% endif %}value="25">SMTP (25)</option>
+						<option {% if edit_value_port==465 %}selected {% endif %}value="465">SMTP Secure (465)</option>
+						<option {% if edit_value_port==22 %}selected {% endif %}value="22">SSH (22)</option>
+						<option {% if edit_value_port==23 %}selected {% endif %}value="23">Telnet (23)</option>
+						<option {% if edit_value_port==43 %}selected {% endif %}value="43">WHOIS (43)</option>
 					</optgroup>
 				</select>
 			</div>
