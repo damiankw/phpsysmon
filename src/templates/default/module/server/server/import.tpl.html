@@ -1,6 +1,5 @@
 {% import 'main/macros.tpl.html' as macro %}
-<form name="import_server" action="{{ url_save|raw }}" class="col-md-6 pl-0 pr-0" id="import_server" method="post"
- autocomplete="off">
+<form name="import_server" action="{{ url_save|raw }}" enctype="multipart/form-data" class="col-md-6 pl-0 pr-0" id="import_server" method="post" autocomplete="off">
 	<fieldset>
 		<legend>{{ titlemode }}</legend>
 		<p>{{ label_import_description|raw }}</p>

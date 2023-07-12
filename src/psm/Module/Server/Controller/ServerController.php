@@ -280,8 +280,78 @@ class ServerController extends AbstractServerController
     protected function executeImport()
     {
         // check if an import file has been uploaded
-        if (!empty($_POST['file'])) {
-            return $this->executeIndex();
+        if (!empty($_FILES)) {
+            // check that the file is valid
+            // open the file
+            echo '<pre>';
+            $line = 0;
+            if (($file = fopen($_FILES['file']['tmp_name'], 'r') or die(print_r(error_get_last()))) !== false) {
+                while (($data = fgetcsv($file)) !== false) {
+                    // check if we are doing headers
+                    if (empty($headers)) {
+                        // if headers need to be saved
+                        $headers = $data;
+
+                    } else {
+                        // if they don't
+
+                        // check if required fields are entered
+                        if (($data[array_search('Label', $headers, true)] == '') || ($data[array_search('DomainIP', $headers, true)] == '') || ($data[array_search('Type', $headers, true)] == '') || ($data[array_search('Port', $headers, true)] == '')) {
+                            // if there's an error, build an error response
+                            $this->addMessage(psm_get_lang('servers', 'error_server_cant_add', 'asd'), 'error');
+                            $errors[] = Array(
+                                'line' => $line,
+                                'label' => $data[array_search('Label', $headers, true)],
+                                'domainip' => $data[array_search('', $headers, true)],
+                                'type' => $data[array_search('', $headers, true)],
+                                'port' => $data[array_search('', $headers, true)],
+                                'error' => 'Invalid input: Required field is empty.'
+                            );
+                        }
+                        echo $data[array_search('DomainIP', $headers, true)];
+                        /*
+                        $clean = array(
+                            'label' => trim(strip_tags(psm_POST('label', ''))),
+                            'ip' => trim(strip_tags(psm_POST('ip', ''))),
+                            'timeout' => (isset($_POST['timeout']) && intval($_POST['timeout']) > 0) ? intval($_POST['timeout']) : 10,
+                            'website_username' => psm_POST('website_username'),
+                            'website_password' => $encrypted_password,
+                            'port' => intval(psm_POST('port', 0)),
+                            'request_method' => empty(psm_POST('request_method')) ? null : psm_POST('request_method'),
+                            'post_field' => empty(psm_POST('post_field')) ? null : psm_POST('post_field'),
+                            'type' => psm_POST('type', ''),
+                            'pattern' => psm_POST('pattern', ''),
+                            'pattern_online' => in_array($_POST['pattern_online'], array('yes', 'no')) ? $_POST['pattern_online'] : 'yes',
+                            'redirect_check' => in_array($_POST['redirect_check'], array('ok', 'bad')) ? $_POST['redirect_check'] : 'bad',
+                            'allow_http_status' => psm_POST('allow_http_status', ''),
+                            'header_name' => psm_POST('header_name', ''),
+                            'header_value' => psm_POST('header_value', ''),
+                            'warning_threshold' => intval(psm_POST('warning_threshold', 0)),
+                            'ssl_cert_expiry_days' => intval(psm_POST('ssl_cert_expiry_days', 1)),
+                            'active' => in_array($_POST['active'], array('yes', 'no')) ? $_POST['active'] : 'no',
+                            'email' => in_array($_POST['email'], array('yes', 'no')) ? $_POST['email'] : 'no',
+                            'sms' => in_array($_POST['sms'], array('yes', 'no')) ? $_POST['sms'] : 'no',
+                            'discord' => in_array($_POST['discord'], array('yes', 'no')) ? $_POST['discord'] : 'no',
+                            'pushover' => in_array($_POST['pushover'], array('yes', 'no')) ? $_POST['pushover'] : 'no',
+                            'webhook' => in_array($_POST['webhook'], array('yes', 'no')) ? $_POST['webhook'] : 'no',
+                            'telegram' => in_array($_POST['telegram'], array('yes', 'no')) ? $_POST['telegram'] : 'no',
+                            'jabber' => in_array($_POST['jabber'], array('yes', 'no')) ? $_POST['jabber'] : 'no',
+                        );
+                        */
+
+                    }
+                    $line++;
+                }
+                print_r($headers);
+            } else {
+                echo 'Unable to open temporary uploaded file.';
+            }
+            echo '</pre>';
+            // headers: Label; DomainIP; Type; Port; Warning; Timeout; Monitoring; SendEmail; SendSMS; SendPushover; SendTelegram; SendJabber; SendDiscord; Permissions
+            // import the data
+            // show a friendly output
+            //return $this->executeIndex();
+            return $this->runAction('index');
         } else {
 
             $back_to = isset($_GET['back_to']) ? $_GET['back_to'] : '';
@@ -303,42 +373,6 @@ class ServerController extends AbstractServerController
                 $tpl_data['url_go_back'] = psm_build_url(array('mod' => 'server'));
             }
 
-            $tpl_data['users'] = $this->db->select(PSM_DB_PREFIX . 'users', null, array('user_id', 'name'), '', 'name');
-
-            foreach ($tpl_data['users'] as &$user) {
-                $user['id'] = $user['user_id'];
-                unset($user['user_id']);
-                $user['label'] = $user['name'];
-                unset($user['name']);
-            }
-
-            switch ($this->server_id) {
-                case 0:
-                    // insert mode
-                    $tpl_data['titlemode'] = psm_get_lang('system', 'bulk_import');
-                    $tpl_data['edit_value_warning_threshold'] = '1';
-
-                    $edit_server = $_POST;
-                    break;
-                default:
-                    // edit mode
-                    // get server entry
-                    $edit_server = $this->getServers($this->server_id);
-                    if (empty($edit_server)) {
-                        $this->addMessage(psm_get_lang('servers', 'error_server_no_match'), 'error');
-                        return $this->runAction('index');
-                    }
-                    $tpl_data['titlemode'] = psm_get_lang('system', 'edit') . ' ' . $edit_server['label'];
-
-                    $user_idc_selected = $this->getServerUsers($this->server_id);
-                    foreach ($tpl_data['users'] as &$user) {
-                        if (in_array($user['id'], $user_idc_selected)) {
-                            $user['edit_selected'] = 'selected="selected"';
-                        }
-                    }
-
-                    break;
-            }
             return $this->twig->render('module/server/server/import.tpl.html', $tpl_data);
         }
     }

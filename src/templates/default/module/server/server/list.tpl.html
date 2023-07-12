@@ -1,5 +1,12 @@
 {% import 'main/macros.tpl.html' as macro %}
-{{ macro.table_search(label_search) }}
+<div class="table-responsive">
+	{% for error in errors %}
+	..
+	{% endfor %}
+</div>
+
+	{{ macro.table_search(label_search) }}
+<?php print_r($errors); ?>
 <div class="table-responsive">
 	<table class="table table-striped table-hover table-bordered">
 		<thead>
