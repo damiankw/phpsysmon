@@ -80,11 +80,9 @@ class StatusController extends AbstractServerController
         $layout_data['servers_offline'] = array();
         $layout_data['servers_warning'] = array();
         $layout_data['servers_online'] = array();
+        $layout_data['servers_inactive'] = array();
 
         foreach ($servers as $server) {
-            if ($server['active'] == 'no') {
-                continue;
-            }
             $server['last_checked_nice'] = psm_timespan($server['last_check']);
             $server['last_online_nice'] = psm_timespan($server['last_online']);
             $server['last_offline_nice'] = psm_timespan($server['last_offline']);
@@ -96,7 +94,10 @@ class StatusController extends AbstractServerController
                 array('mod' => 'server', 'action' => 'view', 'id' => $server['server_id'], 'back_to' => 'server_status')
             );
 
-            if ($server['status'] == "off") {
+            if ($server['active'] == 'no') {
+                $layout_data['servers_inactive'][] = $server;
+            }
+            elseif ($server['status'] == "off") {
                 $layout_data['servers_offline'][] = $server;
             } elseif ($server['warning_threshold_counter'] > 0) {
                 $layout_data['servers_warning'][] = $server;
